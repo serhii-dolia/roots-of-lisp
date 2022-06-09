@@ -1,5 +1,6 @@
 # Roots of Lisp
 
+This is the implementation of original Lisp from 1960 as described in the 
 [Original article](http://www.paulgraham.com/rootsoflisp.html)
 
 # How to use
