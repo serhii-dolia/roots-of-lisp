@@ -1,2 +1,3 @@
-# roots-of-lisp
-Implementation of lisp described in Paul Graham's article "The Roots of Lisp"
+# Roots of Lisp
+
+original article: http://www.paulgraham.com/rootsoflisp.html

@@ -1,0 +1,14 @@
+{
+  "name": "roots-of-lisp",
+  "author": {
+    "email": "serhii.dolia@gmail.com",
+    "name": "Serhii Dolia",
+    "url": "https://github.com/serhii-dolia"
+  },
+  "packageManager": "yarn@3.2.1",
+  "type": "module",
+  "devDependencies": {
+    "@types/node": "^17.0.40",
+    "typescript": "next"
+  }
+}
