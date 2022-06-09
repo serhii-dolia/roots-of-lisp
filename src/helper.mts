@@ -1,21 +1,12 @@
-import {
-  Func,
-  FUNC,
-  LispSymbol,
-  LispType,
-  LIST,
-  List,
-  SYMBOL,
-} from "./types.mjs";
+import { Func, FUNC, LispSymbol, LIST, List, SYMBOL } from "./types.mjs";
 
-export const bool = (_: boolean): typeof T_SYMBOL | typeof F_SYMBOL =>
-  _ ? T_SYMBOL : F_SYMBOL;
+export const bool = (_: boolean) => (_ ? T_SYMBOL : F_SYMBOL);
 
-export const list = (value: LispType[]): List => ({
+export const list = (value: List["value"]): List => ({
   type: LIST,
   value,
 });
-export const symbol = (value: string): LispSymbol => ({
+export const symbol = (value: LispSymbol["value"]): LispSymbol => ({
   type: SYMBOL,
   value,
 });
