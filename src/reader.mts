@@ -1,4 +1,5 @@
-import { List, QUOTE_SYMBOL, symbol, list, LispType } from "./types.mjs";
+import { list, QUOTE_SYMBOL, symbol } from "./helper.mjs";
+import { List, LispType } from "./types.mjs";
 
 export const read_str = (_: string) => read_form(new Reader(tokenize(_)));
 
@@ -7,6 +8,7 @@ export const read_str_bulk = (_: string) =>
 
 const EOF = "EOF";
 const LEFT_PAREN = "(";
+const RIGHT_PAREN = ")";
 
 class Reader {
   private currentPosition = 0;
@@ -52,7 +54,6 @@ const read_form_bulk = (_: Reader): LispType[] => {
         _.next();
         continue;
     }
-    _.next();
   }
   return elements;
 };
@@ -72,19 +73,19 @@ const read_list = (_: Reader): List => {
   let currentSymbol = _.next();
   let currentValue = read_form(_);
   // case for the empty lists
-  if (currentValue.value === ")") {
+  if (currentValue.value === RIGHT_PAREN) {
     return list([]);
   }
   const values = [currentValue];
-  while (currentValue.value !== ")") {
+  while (currentValue.value !== RIGHT_PAREN) {
     currentSymbol = _.next();
     if (currentSymbol === EOF) {
       throw new Error(EOF);
     }
-    currentValue = read_form(_);
-    if (currentValue.value === ")") {
+    if (currentSymbol === RIGHT_PAREN) {
       break;
     }
+    currentValue = read_form(_);
     values.push(currentValue);
   }
   return list(values);

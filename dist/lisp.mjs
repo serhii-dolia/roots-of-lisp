@@ -5,38 +5,23 @@ import { stdin as input, stdout as output } from "node:process";
 //@ts-ignore
 import * as fs from "node:fs";
 import { read_str, read_str_bulk } from "./reader.mjs";
-import { FUNC, func, F_SYMBOL, list, LIST, symbol, SYMBOL, T_SYMBOL, } from "./types.mjs";
-import { bool } from "./helper.mjs";
+import { FUNC, LIST, SYMBOL, } from "./types.mjs";
+import { bool, func, F_SYMBOL, isEmpty, list, symbol, T_SYMBOL, } from "./helper.mjs";
 import { Env } from "./env.mjs";
 import { pr_str } from "./printer.mjs";
 export const rl = readline.createInterface({ input, output });
-const car = (_) => {
-    switch (_.type) {
-        case LIST:
-            return _.value[0];
-    }
-};
-const cdr = (_) => {
-    switch (_.type) {
-        case LIST:
-            return list(_.value.slice(1));
-    }
-};
+const car = (_) => _.value[0];
+const cdr = (_) => list(_.value.slice(1));
 // list starts with Symbol lambda
 const create_lambda = (_, env) => {
     const [params, expr] = _.value.slice(1);
-    return func((..._) => {
-        return EVAL(expr, new Env(env, params.value, _));
-    });
+    return func((..._) => EVAL(expr, new Env(env, params.value, _)));
 };
-const READ = (_) => {
-    return read_str(_);
-};
-//(eval. '((label x (lambda (y) y) 'w)) '())
+const READ = (_) => read_str(_);
 const EVAL = (_, env) => {
     switch (_.type) {
         case LIST: {
-            if (_.value.length === 0) {
+            if (isEmpty(_)) {
                 return _;
             }
             const { value } = _.value[0];
@@ -63,9 +48,7 @@ const EVAL = (_, env) => {
                 }
                 case "defun": {
                     const [, funName, args, body] = _.value;
-                    const f = func((..._) => {
-                        return EVAL(body, new Env(env, args.value, _));
-                    });
+                    const f = func((..._) => EVAL(body, new Env(env, args.value, _)));
                     env.set(funName.value, f);
                     return f;
                 }
@@ -79,9 +62,7 @@ const EVAL = (_, env) => {
                         if (firstElement.value[0].value !== "lambda") {
                             throw new Error("not a function. expected list with lambda");
                         }
-                        else {
-                            firstElement = create_lambda(firstElement, env);
-                        }
+                        firstElement = create_lambda(firstElement, env);
                     }
                     return firstElement.value(...evaluatedList.value.slice(1));
             }
@@ -96,63 +77,34 @@ const REPL_ENV = new Env(null);
 REPL_ENV.set("atom", func((_) => {
     switch (_.type) {
         case LIST:
-            if (_.value.length === 0) {
-                return T_SYMBOL;
-            }
-            return F_SYMBOL;
+            return bool(isEmpty(_));
         default:
             return T_SYMBOL;
     }
 }));
-REPL_ENV.set("eq", func((arg1, arg2) => {
-    if (arg1.type !== arg2.type) {
+REPL_ENV.set("eq", func(({ type: type1, value: value1 }, { type: type2, value: value2 }) => {
+    if (type1 !== type2) {
         return F_SYMBOL;
     }
-    if (arg1.type === LIST) {
-        return bool(arg1.value.length === 0 && arg2.value.length === 0);
-    }
-    else {
-        return bool(arg1.value === arg2.value);
-    }
+    return type1 === LIST
+        ? bool(isEmpty(value1) && isEmpty(value2))
+        : bool(value1 === value2);
 }));
-REPL_ENV.set("car", func(((_) => {
-    return car(_);
-})));
-REPL_ENV.set("cdr", func(((_) => {
-    return cdr(_);
-})));
-REPL_ENV.set("caar", func(((_) => {
-    return car(car(_));
-})));
-REPL_ENV.set("cadr", func(((_) => {
-    return car(cdr(_));
-})));
-REPL_ENV.set("caddr", func(((_) => {
-    return car(cdr(cdr(_)));
-})));
-REPL_ENV.set("caddar", func(((_) => {
-    return car(cdr(cdr(car(_))));
-})));
-REPL_ENV.set("cadar", func(((_) => {
-    return car(cdr(car(_)));
-})));
-REPL_ENV.set("cons", func(((arg1, arg2) => {
-    return list([arg1, ...arg2.value]);
-})));
+REPL_ENV.set("car", func(car));
+REPL_ENV.set("cdr", func(cdr));
+REPL_ENV.set("caar", func(((_) => car(car(_)))));
+REPL_ENV.set("cadr", func(((_) => car(cdr(_)))));
+REPL_ENV.set("caddr", func(((_) => car(cdr(cdr(_))))));
+REPL_ENV.set("caddar", func(((_) => car(cdr(cdr(car(_)))))));
+REPL_ENV.set("cadar", func(((_) => car(cdr(car(_))))));
+REPL_ENV.set("cons", func(((arg1, arg2) => list([arg1, ...arg2.value]))));
 REPL_ENV.set("load-file", func(((arg) => {
-    const file = fs.readFileSync(arg.value, { encoding: "utf-8" });
-    const elements = read_str_bulk(file);
-    for (const el of elements) {
-        EVAL(el, REPL_ENV);
-    }
+    const elements = read_str_bulk(fs.readFileSync(arg.value, { encoding: "utf-8" }));
+    elements.map((e) => EVAL(e, REPL_ENV));
     return symbol("done");
 })));
-const PRINT = (_) => {
-    return pr_str(_);
-};
-const rep = (_) => {
-    return PRINT(EVAL(READ(_), REPL_ENV));
-};
+const PRINT = (_) => pr_str(_);
+const rep = (_) => PRINT(EVAL(READ(_), REPL_ENV));
 const start = async () => {
     while (true) {
         try {

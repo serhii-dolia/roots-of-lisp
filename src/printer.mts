@@ -5,7 +5,7 @@ export const pr_str = (_: LispType): string => {
     case SYMBOL:
       return _.value;
     case LIST:
-      return `(${_.value.map(pr_str).join(" ")})`;
+      return _.value.map(pr_str).join(" ");
     case FUNC:
       return "#<function>";
   }

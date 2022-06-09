@@ -7,54 +7,44 @@ import * as fs from "node:fs";
 import { read_str, read_str_bulk } from "./reader.mjs";
 import {
   FUNC,
-  func,
   FuncPrimitive,
-  F_SYMBOL,
   LispSymbol,
   LispType,
-  list,
   LIST,
   List,
-  symbol,
   SYMBOL,
-  T_SYMBOL,
 } from "./types.mjs";
-import { bool } from "./helper.mjs";
+import {
+  bool,
+  func,
+  F_SYMBOL,
+  isEmpty,
+  list,
+  symbol,
+  T_SYMBOL,
+} from "./helper.mjs";
 import { Env } from "./env.mjs";
 import { pr_str } from "./printer.mjs";
 export const rl = readline.createInterface({ input, output });
 
-const car = (_: List): LispType => {
-  switch (_.type) {
-    case LIST:
-      return _.value[0];
-  }
-};
+const car = (_: List): LispType => _.value[0];
 
-const cdr = (_: List): List => {
-  switch (_.type) {
-    case LIST:
-      return list(_.value.slice(1));
-  }
-};
+const cdr = (_: List): List => list(_.value.slice(1));
 
 // list starts with Symbol lambda
 const create_lambda = (_: List, env: Env) => {
   const [params, expr] = _.value.slice(1) as [List, LispType];
-  return func((..._: LispType[]) => {
-    return EVAL(expr, new Env(env, params.value as LispSymbol[], _));
-  });
+  return func((..._: LispType[]) =>
+    EVAL(expr, new Env(env, params.value as LispSymbol[], _))
+  );
 };
 
-const READ = (_: string): LispType => {
-  return read_str(_);
-};
+const READ = (_: string): LispType => read_str(_);
 
-//(eval. '((label x (lambda (y) y) 'w)) '())
 const EVAL = (_: LispType, env: Env): LispType => {
   switch (_.type) {
     case LIST: {
-      if (_.value.length === 0) {
+      if (isEmpty(_)) {
         return _;
       }
       const { value } = _.value[0];
@@ -94,9 +84,9 @@ const EVAL = (_: LispType, env: Env): LispType => {
             List,
             List
           ];
-          const f = func((..._: LispType[]) => {
-            return EVAL(body, new Env(env, args.value as LispSymbol[], _));
-          });
+          const f = func((..._: LispType[]) =>
+            EVAL(body, new Env(env, args.value as LispSymbol[], _))
+          );
           env.set(funName.value, f);
           return f;
         }
@@ -110,9 +100,8 @@ const EVAL = (_: LispType, env: Env): LispType => {
             }
             if (firstElement.value[0].value !== "lambda") {
               throw new Error("not a function. expected list with lambda");
-            } else {
-              firstElement = create_lambda(firstElement, env);
             }
+            firstElement = create_lambda(firstElement, env);
           }
           return firstElement.value(...evaluatedList.value.slice(1));
       }
@@ -130,10 +119,7 @@ REPL_ENV.set(
   func((_: LispType) => {
     switch (_.type) {
       case LIST:
-        if (_.value.length === 0) {
-          return T_SYMBOL;
-        }
-        return F_SYMBOL;
+        return bool(isEmpty(_));
       default:
         return T_SYMBOL;
     }
@@ -142,94 +128,56 @@ REPL_ENV.set(
 
 REPL_ENV.set(
   "eq",
-  func((arg1: LispType, arg2: LispType) => {
-    if (arg1.type !== arg2.type) {
-      return F_SYMBOL;
+  func(
+    (
+      { type: type1, value: value1 }: LispType,
+      { type: type2, value: value2 }: LispType
+    ) => {
+      if (type1 !== type2) {
+        return F_SYMBOL;
+      }
+      return type1 === LIST
+        ? bool(isEmpty(value1) && isEmpty(value2 as List["value"]))
+        : bool(value1 === value2);
     }
-    if (arg1.type === LIST) {
-      return bool(arg1.value.length === 0 && arg2.value.length === 0);
-    } else {
-      return bool(arg1.value === arg2.value);
-    }
-  })
+  )
 );
 
-REPL_ENV.set(
-  "car",
-  func(((_: List) => {
-    return car(_);
-  }) as FuncPrimitive)
-);
-
-REPL_ENV.set(
-  "cdr",
-  func(((_: List) => {
-    return cdr(_);
-  }) as FuncPrimitive)
-);
-
-REPL_ENV.set(
-  "caar",
-  func(((_: List) => {
-    return car(car(_) as List);
-  }) as FuncPrimitive)
-);
-
-REPL_ENV.set(
-  "cadr",
-  func(((_: List) => {
-    return car(cdr(_));
-  }) as FuncPrimitive)
-);
-
-REPL_ENV.set(
-  "caddr",
-  func(((_: List) => {
-    return car(cdr(cdr(_)));
-  }) as FuncPrimitive)
-);
-
+REPL_ENV.set("car", func(car as FuncPrimitive));
+REPL_ENV.set("cdr", func(cdr as FuncPrimitive));
+REPL_ENV.set("caar", func(((_: List) => car(car(_) as List)) as FuncPrimitive));
+REPL_ENV.set("cadr", func(((_: List) => car(cdr(_))) as FuncPrimitive));
+REPL_ENV.set("caddr", func(((_: List) => car(cdr(cdr(_)))) as FuncPrimitive));
 REPL_ENV.set(
   "caddar",
-  func(((_: List) => {
-    return car(cdr(cdr(car(_) as List)));
-  }) as FuncPrimitive)
+  func(((_: List) => car(cdr(cdr(car(_) as List)))) as FuncPrimitive)
 );
-
 REPL_ENV.set(
   "cadar",
-  func(((_: List) => {
-    return car(cdr(car(_) as List));
-  }) as FuncPrimitive)
+  func(((_: List) => car(cdr(car(_) as List))) as FuncPrimitive)
 );
 
 REPL_ENV.set(
   "cons",
-  func(((arg1: LispSymbol, arg2: List) => {
-    return list([arg1, ...arg2.value]);
-  }) as FuncPrimitive)
+  func(((arg1: LispSymbol, arg2: List) =>
+    list([arg1, ...arg2.value])) as FuncPrimitive)
 );
 
 REPL_ENV.set(
   "load-file",
   func(((arg: LispSymbol) => {
-    const file = fs.readFileSync(arg.value, { encoding: "utf-8" });
-    const elements = read_str_bulk(file);
-    for (const el of elements) {
-      EVAL(el, REPL_ENV);
-    }
+    const elements = read_str_bulk(
+      fs.readFileSync(arg.value, { encoding: "utf-8" })
+    );
+    elements.map((e) => EVAL(e, REPL_ENV));
 
     return symbol("done");
   }) as FuncPrimitive)
 );
 
-const PRINT = (_: LispType) => {
-  return pr_str(_);
-};
+const PRINT = (_: LispType) => pr_str(_);
 
-const rep = (_: string) => {
-  return PRINT(EVAL(READ(_), REPL_ENV));
-};
+const rep = (_: string) => PRINT(EVAL(READ(_), REPL_ENV));
 
 const start = async () => {
   while (true) {

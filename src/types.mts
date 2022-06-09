@@ -20,21 +20,3 @@ export type Func = {
 };
 
 export type FuncPrimitive = (...args: LispType[]) => LispType;
-export const list = (value: LispType[]): List => ({
-  type: LIST,
-  value,
-});
-export const symbol = (value: string): LispSymbol => ({
-  type: SYMBOL,
-  value,
-});
-export const func = (value: Func["value"]): Func => ({
-  type: FUNC,
-  value,
-});
-
-export const QUOTE_SYMBOL = symbol("quote");
-
-export const T_SYMBOL = symbol("t");
-
-export const F_SYMBOL = list([]); //symbol("f");
