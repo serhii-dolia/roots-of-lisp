@@ -7,8 +7,8 @@
   },
   "packageManager": "yarn@3.2.1",
   "scripts": {
-    "build": "yarn tsc",
-    "build-dev": "yarn tsc -w",
+    "build": "tsc",
+    "build-dev": "tsc -w",
     "start": "node dist/lisp.mjs"
   },
   "type": "module",

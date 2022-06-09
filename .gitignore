@@ -8,7 +8,6 @@
 .clj-kondo/
 .lsp/
 
-dist/
 original-lisp/
 .editorconfig
 
