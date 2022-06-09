@@ -12,31 +12,31 @@ __metadata:
   languageName: node
   linkType: hard
 
-"original-lisp@workspace:.":
+"roots-of-lisp@workspace:.":
   version: 0.0.0-use.local
-  resolution: "original-lisp@workspace:."
+  resolution: "roots-of-lisp@workspace:."
   dependencies:
     "@types/node": ^17.0.40
-    typescript: next
+    typescript: 4.7
   languageName: unknown
   linkType: soft
 
-"typescript@npm:next":
-  version: 4.8.0-dev.20220606
-  resolution: "typescript@npm:4.8.0-dev.20220606"
+"typescript@npm:4.7":
+  version: 4.7.3
+  resolution: "typescript@npm:4.7.3"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 8dad805a5bd89ac436ffee985aec20329b4f967efbf2c308bfb738a2d2f6f4a23ff19d0d6642ca89d97cf2cefe4d50e0338e1f31456e6f96389413b3c4ac9bdc
+  checksum: fd13a1ce53790a36bb8350e1f5e5e384b5f6cb9b0635114a6d01d49cb99916abdcfbc13c7521cdae2f2d3f6d8bc4a8ae7625edf645a04ee940588cd5e7597b2f
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@next#~builtin<compat/typescript>":
-  version: 4.8.0-dev.20220606
-  resolution: "typescript@patch:typescript@npm%3A4.8.0-dev.20220606#~builtin<compat/typescript>::version=4.8.0-dev.20220606&hash=7ad353"
+"typescript@patch:typescript@4.7#~builtin<compat/typescript>":
+  version: 4.7.3
+  resolution: "typescript@patch:typescript@npm%3A4.7.3#~builtin<compat/typescript>::version=4.7.3&hash=7ad353"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: b4afcb053752fa697a5db422af367a15aea91ad3e61d155f9738cb3c41c74900e4609d7b811ed0ad8f146d1c0e0aac61315685fccfb5220c50918f25a27fcf9c
+  checksum: 137d18a77f52254a284960b16ab53d0619f57b69b5d585804b8413f798a1175ce3e774fb95e6a101868577aafe357d8fcfc9171f0dc9fc0c210e9ae59d107cc0
   languageName: node
   linkType: hard

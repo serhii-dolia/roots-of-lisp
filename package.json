@@ -6,9 +6,14 @@
     "url": "https://github.com/serhii-dolia"
   },
   "packageManager": "yarn@3.2.1",
+  "scripts": {
+    "build": "yarn tsc",
+    "build-dev": "yarn tsc -w",
+    "start": "node dist/lisp.mjs"
+  },
   "type": "module",
   "devDependencies": {
     "@types/node": "^17.0.40",
-    "typescript": "next"
+    "typescript": "4.7"
   }
 }

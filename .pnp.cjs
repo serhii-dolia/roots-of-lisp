@@ -17,14 +17,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
     ],\
     "dependencyTreeRoots": [\
       {\
-        "name": "original-lisp",\
+        "name": "roots-of-lisp",\
         "reference": "workspace:."\
       }\
     ],\
     "enableTopLevelFallback": true,\
     "ignorePatternData": "(^(?:\\\\.yarn\\\\/sdks(?:\\\\/(?!\\\\.{1,2}(?:\\\\/|$))(?:(?:(?!(?:^|\\\\/)\\\\.{1,2}(?:\\\\/|$)).)*?)|$))$)",\
     "fallbackExclusionList": [\
-      ["original-lisp", ["workspace:."]]\
+      ["roots-of-lisp", ["workspace:."]]\
     ],\
     "fallbackPool": [\
     ],\
@@ -34,7 +34,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./",\
           "packageDependencies": [\
             ["@types/node", "npm:17.0.40"],\
-            ["typescript", "patch:typescript@npm%3A4.8.0-dev.20220606#~builtin<compat/typescript>::version=4.8.0-dev.20220606&hash=7ad353"]\
+            ["typescript", "patch:typescript@npm%3A4.7.3#~builtin<compat/typescript>::version=4.7.3&hash=7ad353"]\
           ],\
           "linkType": "SOFT"\
         }]\
@@ -48,22 +48,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
-      ["original-lisp", [\
+      ["roots-of-lisp", [\
         ["workspace:.", {\
           "packageLocation": "./",\
           "packageDependencies": [\
-            ["original-lisp", "workspace:."],\
+            ["roots-of-lisp", "workspace:."],\
             ["@types/node", "npm:17.0.40"],\
-            ["typescript", "patch:typescript@npm%3A4.8.0-dev.20220606#~builtin<compat/typescript>::version=4.8.0-dev.20220606&hash=7ad353"]\
+            ["typescript", "patch:typescript@npm%3A4.7.3#~builtin<compat/typescript>::version=4.7.3&hash=7ad353"]\
           ],\
           "linkType": "SOFT"\
         }]\
       ]],\
       ["typescript", [\
-        ["patch:typescript@npm%3A4.8.0-dev.20220606#~builtin<compat/typescript>::version=4.8.0-dev.20220606&hash=7ad353", {\
-          "packageLocation": "./.yarn/cache/typescript-patch-33c89ccc65-b4afcb0537.zip/node_modules/typescript/",\
+        ["patch:typescript@npm%3A4.7.3#~builtin<compat/typescript>::version=4.7.3&hash=7ad353", {\
+          "packageLocation": "./.yarn/cache/typescript-patch-e8f1acd78e-137d18a77f.zip/node_modules/typescript/",\
           "packageDependencies": [\
-            ["typescript", "patch:typescript@npm%3A4.8.0-dev.20220606#~builtin<compat/typescript>::version=4.8.0-dev.20220606&hash=7ad353"]\
+            ["typescript", "patch:typescript@npm%3A4.7.3#~builtin<compat/typescript>::version=4.7.3&hash=7ad353"]\
           ],\
           "linkType": "HARD"\
         }]\
