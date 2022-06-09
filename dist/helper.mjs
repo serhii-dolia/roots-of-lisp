@@ -12,7 +12,7 @@ export const func = (value) => ({
     type: FUNC,
     value,
 });
-export const isEmpty = (_) => {
+export const is_empty = (_) => {
     if ("type" in _) {
         return _.value.length === 0;
     }

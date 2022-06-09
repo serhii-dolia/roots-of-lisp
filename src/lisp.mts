@@ -18,14 +18,15 @@ import {
   bool,
   func,
   F_SYMBOL,
-  isEmpty,
+  is_empty,
   list,
   symbol,
   T_SYMBOL,
 } from "./helper.mjs";
 import { Env } from "./env.mjs";
 import { pr_str } from "./printer.mjs";
-export const rl = readline.createInterface({ input, output });
+
+const rl = readline.createInterface({ input, output });
 
 const car = (_: List): LispType => _.value[0];
 
@@ -44,7 +45,7 @@ const READ = (_: string): LispType => read_str(_);
 const EVAL = (_: LispType, env: Env): LispType => {
   switch (_.type) {
     case LIST: {
-      if (isEmpty(_)) {
+      if (is_empty(_)) {
         return _;
       }
       const { value } = _.value[0];
@@ -119,7 +120,7 @@ REPL_ENV.set(
   func((_: LispType) => {
     switch (_.type) {
       case LIST:
-        return bool(isEmpty(_));
+        return bool(is_empty(_));
       default:
         return T_SYMBOL;
     }
@@ -137,7 +138,7 @@ REPL_ENV.set(
         return F_SYMBOL;
       }
       return type1 === LIST
-        ? bool(isEmpty(value1) && isEmpty(value2 as List["value"]))
+        ? bool(is_empty(value1) && is_empty(value2 as List["value"]))
         : bool(value1 === value2);
     }
   )

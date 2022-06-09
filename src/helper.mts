@@ -24,7 +24,7 @@ export const func = (value: Func["value"]): Func => ({
   value,
 });
 
-export const isEmpty = (_: List | List["value"]): boolean => {
+export const is_empty = (_: List | List["value"]): boolean => {
   if ("type" in _) {
     return _.value.length === 0;
   }

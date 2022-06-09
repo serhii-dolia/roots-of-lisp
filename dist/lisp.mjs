@@ -6,10 +6,10 @@ import { stdin as input, stdout as output } from "node:process";
 import * as fs from "node:fs";
 import { read_str, read_str_bulk } from "./reader.mjs";
 import { FUNC, LIST, SYMBOL, } from "./types.mjs";
-import { bool, func, F_SYMBOL, isEmpty, list, symbol, T_SYMBOL, } from "./helper.mjs";
+import { bool, func, F_SYMBOL, is_empty, list, symbol, T_SYMBOL, } from "./helper.mjs";
 import { Env } from "./env.mjs";
 import { pr_str } from "./printer.mjs";
-export const rl = readline.createInterface({ input, output });
+const rl = readline.createInterface({ input, output });
 const car = (_) => _.value[0];
 const cdr = (_) => list(_.value.slice(1));
 // list starts with Symbol lambda
@@ -21,7 +21,7 @@ const READ = (_) => read_str(_);
 const EVAL = (_, env) => {
     switch (_.type) {
         case LIST: {
-            if (isEmpty(_)) {
+            if (is_empty(_)) {
                 return _;
             }
             const { value } = _.value[0];
@@ -77,7 +77,7 @@ const REPL_ENV = new Env(null);
 REPL_ENV.set("atom", func((_) => {
     switch (_.type) {
         case LIST:
-            return bool(isEmpty(_));
+            return bool(is_empty(_));
         default:
             return T_SYMBOL;
     }
@@ -87,7 +87,7 @@ REPL_ENV.set("eq", func(({ type: type1, value: value1 }, { type: type2, value: v
         return F_SYMBOL;
     }
     return type1 === LIST
-        ? bool(isEmpty(value1) && isEmpty(value2))
+        ? bool(is_empty(value1) && is_empty(value2))
         : bool(value1 === value2);
 }));
 REPL_ENV.set("car", func(car));
