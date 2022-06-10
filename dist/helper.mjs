@@ -1,5 +1,5 @@
-import { FUNC, LIST, SYMBOL } from "./types.mjs";
-export const bool = (_) => (_ ? T_SYMBOL : F_SYMBOL);
+import { FUNC, LIST, SYMBOL, } from "./types.mjs";
+export const bool = (_) => _ ? T_SYMBOL : F_SYMBOL;
 export const list = (value) => ({
     type: LIST,
     value,
