@@ -16,7 +16,7 @@ in order to build the project, you can run `yarn build` or `yarn build:dev` for 
 ## Running
 
 This project uses EcmaScript Modules (ESM). They are supported by the latest LTS Node versions.
-In order to run the project, you can use the npm script:
+In order to run the project, you can use the commands:
 
 `yarn start`
 or
