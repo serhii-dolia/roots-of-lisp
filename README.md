@@ -1,6 +1,6 @@
 # Roots of Lisp
 
-This is the implementation of original Lisp from 1960 as described in Paul Graham's 
+This is the implementation of original Lisp from 1960 as described in Paul Graham's
 [article](http://www.paulgraham.com/rootsoflisp.html)
 
 # How to use
@@ -10,7 +10,6 @@ This is the implementation of original Lisp from 1960 as described in Paul Graha
 If you just want to run the project, you don't need to build it. The dist folder is already included there.
 
 In order to build the project, you need [Yarn V3](https://yarnpkg.com/getting-started/install).
-The dependencies are already included in the .yarn folder.
 
 in order to build the project, you can run `yarn build` or `yarn build:dev` for watch mode.
 
@@ -24,9 +23,15 @@ or
 `npm start`
 
 or simply
-`node dist/lisp.mjs`
+`node dist/index.mjs`
 
 You will see the promt `input> `
+
+## Testing
+
+This project uses the Node.js test runner from version 18.
+Build the project and run `yarn test` or simply `node test.mjs`.
+Once you see the result, you can hit Ctrl-C to finish testing.
 
 ## What you can do with it
 

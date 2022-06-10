@@ -94,6 +94,7 @@ REPL_ENV.set("car", func(car));
 REPL_ENV.set("cdr", func(cdr));
 REPL_ENV.set("caar", func(((_) => car(car(_)))));
 REPL_ENV.set("cadr", func(((_) => car(cdr(_)))));
+REPL_ENV.set("cdar", func(((_) => cdr(car(_)))));
 REPL_ENV.set("caddr", func(((_) => car(cdr(cdr(_))))));
 REPL_ENV.set("caddar", func(((_) => car(cdr(cdr(car(_)))))));
 REPL_ENV.set("cadar", func(((_) => car(cdr(car(_))))));
@@ -104,8 +105,8 @@ REPL_ENV.set("load-file", func(((arg) => {
     return symbol("done");
 })));
 const PRINT = (_) => pr_str(_);
-const rep = (_) => PRINT(EVAL(READ(_), REPL_ENV));
-const start = async () => {
+export const rep = (_) => PRINT(EVAL(READ(_), REPL_ENV));
+export const start = async () => {
     while (true) {
         try {
             console.log(rep(await rl.question("input> ")));
@@ -116,4 +117,3 @@ const start = async () => {
         }
     }
 };
-start();

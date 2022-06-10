@@ -9,7 +9,8 @@
   "scripts": {
     "build": "tsc",
     "build-dev": "tsc -w",
-    "start": "node dist/lisp.mjs"
+    "start": "node dist/index.mjs",
+    "test": "node test.mjs"
   },
   "type": "module",
   "devDependencies": {

@@ -148,6 +148,7 @@ REPL_ENV.set("car", func(car as FuncPrimitive));
 REPL_ENV.set("cdr", func(cdr as FuncPrimitive));
 REPL_ENV.set("caar", func(((_: List) => car(car(_) as List)) as FuncPrimitive));
 REPL_ENV.set("cadr", func(((_: List) => car(cdr(_))) as FuncPrimitive));
+REPL_ENV.set("cdar", func(((_: List) => cdr(car(_) as List)) as FuncPrimitive));
 REPL_ENV.set("caddr", func(((_: List) => car(cdr(cdr(_)))) as FuncPrimitive));
 REPL_ENV.set(
   "caddar",
@@ -178,9 +179,9 @@ REPL_ENV.set(
 
 const PRINT = (_: LispType) => pr_str(_);
 
-const rep = (_: string) => PRINT(EVAL(READ(_), REPL_ENV));
+export const rep = (_: string) => PRINT(EVAL(READ(_), REPL_ENV));
 
-const start = async () => {
+export const start = async () => {
   while (true) {
     try {
       console.log(rep(await rl.question("input> ")));
@@ -190,5 +191,3 @@ const start = async () => {
     }
   }
 };
-
-start();
