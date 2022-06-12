@@ -1,8 +1,4 @@
 //@ts-ignore
-import * as readline from "node:readline/promises";
-//@ts-ignore
-import { stdin as input, stdout as output } from "node:process";
-//@ts-ignore
 import * as fs from "node:fs";
 import { read_str, read_str_bulk } from "./reader.mjs";
 import {
@@ -25,8 +21,6 @@ import {
 } from "./helper.mjs";
 import { Env } from "./env.mjs";
 import { pr_str } from "./printer.mjs";
-
-const rl = readline.createInterface({ input, output });
 
 const car = (_: List): LispType => _.value[0];
 
@@ -180,14 +174,3 @@ REPL_ENV.set(
 const PRINT = (_: LispType) => pr_str(_);
 
 export const rep = (_: string) => PRINT(EVAL(READ(_), REPL_ENV));
-
-export const start = async () => {
-  while (true) {
-    try {
-      console.log(rep(await rl.question("input> ")));
-    } catch (e: any) {
-      console.log(e.message);
-      await start();
-    }
-  }
-};

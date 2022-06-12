@@ -30,7 +30,7 @@ You will see the promt `input> `
 ## Testing
 
 This project uses the Node.js test runner from version 18.
-Build the project and run `yarn test` or simply `node test.mjs`.
+Build the project and run `yarn test` or simply `node --test` or even `node eval.test.mjs`.
 Once you see the result, you can hit Ctrl-C to finish testing.
 
 ## What you can do with it

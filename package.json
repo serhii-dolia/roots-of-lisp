@@ -10,7 +10,7 @@
     "build": "tsc",
     "build-dev": "tsc -w",
     "start": "node dist/index.mjs",
-    "test": "node test.mjs"
+    "test": "node --test"
   },
   "type": "module",
   "devDependencies": {

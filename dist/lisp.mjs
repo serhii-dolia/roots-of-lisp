@@ -1,15 +1,10 @@
 //@ts-ignore
-import * as readline from "node:readline/promises";
-//@ts-ignore
-import { stdin as input, stdout as output } from "node:process";
-//@ts-ignore
 import * as fs from "node:fs";
 import { read_str, read_str_bulk } from "./reader.mjs";
 import { FUNC, LIST, SYMBOL, } from "./types.mjs";
 import { bool, func, F_SYMBOL, is_empty, list, symbol, T_SYMBOL, } from "./helper.mjs";
 import { Env } from "./env.mjs";
 import { pr_str } from "./printer.mjs";
-const rl = readline.createInterface({ input, output });
 const car = (_) => _.value[0];
 const cdr = (_) => list(_.value.slice(1));
 // list starts with Symbol lambda
@@ -106,14 +101,3 @@ REPL_ENV.set("load-file", func(((arg) => {
 })));
 const PRINT = (_) => pr_str(_);
 export const rep = (_) => PRINT(EVAL(READ(_), REPL_ENV));
-export const start = async () => {
-    while (true) {
-        try {
-            console.log(rep(await rl.question("input> ")));
-        }
-        catch (e) {
-            console.log(e.message);
-            await start();
-        }
-    }
-};

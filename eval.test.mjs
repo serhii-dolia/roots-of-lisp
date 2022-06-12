@@ -1,5 +1,5 @@
-import test from "node:test";
-import assert from 'node:assert/strict';
+import test from 'node:test';
+import assert from 'assert';
 import { rep } from "./dist/lisp.mjs"
 
 const t = "t";
@@ -74,9 +74,11 @@ const cases = [
   ["(eval. '((label firstatom (lambda (x) (cond ((atom x) x) ('t (firstatom (car x)))))) y) '((y ((a b) (c d)))))", "a"],
   ["(eval. '((lambda (x y) (cons x (cdr y))) 'a '(b c d)) '())", "(a c d)"]
 
-]
-test('cases', (t) => {
-  for (const [arg, res] of cases) {
-      assert.strictEqual(rep(arg), res)
-  }
-});
+];
+
+for (const [arg, res] of cases) {
+  test(arg, async (t) => {
+    assert.strictEqual(rep(arg), res)
+  })
+}
+
