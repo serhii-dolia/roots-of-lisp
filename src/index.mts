@@ -1,5 +1,5 @@
 //@ts-ignore
-import * as process from "node:process";
+import process from "node:process";
 //@ts-ignore
 import * as readline from "node:readline/promises";
 //@ts-ignore
@@ -8,7 +8,7 @@ import { rep } from "./lisp.mjs";
 
 const rl = readline.createInterface({ input, output });
 process.on("exit", () => {
-  rl.stop();
+  rl.close();
 });
 
 const start = async () => {
@@ -21,3 +21,5 @@ const start = async () => {
     }
   }
 };
+
+start();
