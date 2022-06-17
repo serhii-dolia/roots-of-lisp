@@ -1,4 +1,3 @@
-//@ts-ignore
 import * as fs from "node:fs";
 import { read_str, read_str_bulk } from "./reader.mjs";
 import { FUNC, LIST, SYMBOL, } from "./types.mjs";
