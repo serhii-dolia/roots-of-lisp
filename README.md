@@ -3,6 +3,24 @@
 This is the implementation of original Lisp from 1960 as described in Paul Graham's
 [article](http://www.paulgraham.com/rootsoflisp.html)
 
+It's done in Typescript.
+
+While it's not the original Lisp per se, it is very close to the description in McCarthy paper.
+What was added by Graham: `defun` (convenient syntactic sugar from Common Lisp) and using of empty list (`'()`) instead of symbol `f` for falsy values.
+What makes it special is how with the limited set of types (symbol, list, function) and limited set of operations (quote, cond, lambda, label, eq, atom, car, cdr, cons ) one can build a language that is powerful enough to support writing its own interpreter.
+
+You can find this interpreter in the `eval.lisp` file.
+
+The source code is in the `src` folder:
+
+- `lisp.mts` is where the interpreter and read-eval-print function are defined
+- `printer.mts` is responsible for printing the lisp types to the terminal
+- `reader.mts` is responsible for parsing the input and converting it to the lisp tyes
+- `env.mts` the class object of which stores the current state of the interpreter (defined functions and variables). It's also used for creating the lexical scopes for functions
+- `index.mts` is where we run the input prompt in a loop, making it a REPL
+
+Knowledge how to do it was obtained while going through the [Make a Lisp](https://github.com/kanaka/mal) repository.
+
 # How to use
 
 ## Building
