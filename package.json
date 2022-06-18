@@ -8,7 +8,7 @@
   "packageManager": "yarn@3.2.1",
   "scripts": {
     "build": "tsc",
-    "build-dev": "tsc -w",
+    "build:dev": "tsc -w",
     "start": "node dist/index.mjs",
     "test": "node --test"
   },

@@ -14,12 +14,10 @@ export class Env {
         if (this.data[symbol]) {
             return this;
         }
-        else if (this.outer === null) {
+        if (this.outer === null) {
             return null;
         }
-        else {
-            return this.outer.find(symbol);
-        }
+        return this.outer.find(symbol);
     }
     get(symbol) {
         const env = this.find(symbol);

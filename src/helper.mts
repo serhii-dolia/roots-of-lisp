@@ -11,11 +11,11 @@ import {
 export const bool = (_: boolean): typeof T_SYMBOL | typeof F_SYMBOL =>
   _ ? T_SYMBOL : F_SYMBOL;
 
-export const list = (value: LispType[]): List => ({
+export const list = (value: List["value"]): List => ({
   type: LIST,
   value,
 });
-export const symbol = (value: string): LispSymbol => ({
+export const symbol = (value: LispSymbol["value"]): LispSymbol => ({
   type: SYMBOL,
   value,
 });
@@ -30,6 +30,7 @@ export const is_empty = (_: List | List["value"]): boolean => {
   }
   return _.length === 0;
 };
+
 export const QUOTE_SYMBOL = symbol("quote");
 
 export const T_SYMBOL = symbol("t");

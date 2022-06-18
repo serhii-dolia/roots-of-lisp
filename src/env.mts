@@ -20,11 +20,11 @@ export class Env {
   find(symbol: string): Env | null {
     if (this.data[symbol]) {
       return this;
-    } else if (this.outer === null) {
-      return null;
-    } else {
-      return this.outer.find(symbol);
     }
+    if (this.outer === null) {
+      return null;
+    }
+    return this.outer.find(symbol);
   }
 
   get(symbol: string): LispType {
